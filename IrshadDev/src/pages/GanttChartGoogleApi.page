@@ -1,0 +1,30 @@
+<apex:page standardStylesheets="false" sidebar="false" showHeader="false">
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Page
+  
+  
+  <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1.1','packages':['timeline']}]}"></script>
+       <div id="timeline" style="height: 180px;"></div>
+       
+         google.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var container = document.getElementById('timeline');
+        var chart = new google.visualization.Timeline(container);
+        var dataTable = new google.visualization.DataTable();
+
+        dataTable.addColumn({ type: 'string', id: 'Project' });          
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'End' });
+        dataTable.addRows([
+          [ 'Project#1', new Date(2015, 1, 1), new Date(2015, 7, 1) ],
+          ]);
+
+        chart.draw(dataTable);
+      }
+  
+  
+  
+  
+</apex:page>

@@ -1,0 +1,6 @@
+<apex:page standardController="account" tabStyle="Account" showHeader="false" sidebar="false"> 
+    <apex:stylesheet value="{!$Resource.StrategicAccountViewMainDesktopCSS}"/>
+<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"/>
+        <c:AccHirearhyResponsive currentId1="{!Account.id}"/>
+   
+</apex:page>

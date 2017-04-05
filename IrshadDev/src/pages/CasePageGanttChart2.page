@@ -1,0 +1,154 @@
+<apex:page standardController="Case" extensions="caseExtensionGanttChartControllerV1_2" showHeader="false" sidebar="false">
+  <!-- Include the Jquery Script files -->
+    <link rel="stylesheet" href="{!URLFOR($Resource.Jtreeview,'Jquerytreeview/jquery.treeview.css')}"/>
+    <script src="{!URLFOR($Resource.Jtreeview,'Jquerytreeview/jquery.js')}" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.Jtreeview,'Jquerytreeview/jquery.cookie.js')}" type="text/javascript"></script>
+    <script src="{!URLFOR($Resource.Jtreeview,'Jquerytreeview/jquery.treeview.js')}" type="text/javascript"></script>
+<!-- End of Javascript files -->
+<script type="text/javascript">
+        $(function() {
+            $("#tree").treeview({
+                collapsed: false,
+                animated: "medium",
+                control:"#sidetreecontrol",
+                persist: "location"
+            });
+        })
+</script>
+  
+  
+  
+  <style>
+  .tableHead{
+      border-style: groove;
+  }
+  
+  .table tr th {border:1px solid #008999; 
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    
+}
+   table tr td {
+       border-left:1px solid #008999;
+       margin : 0px;
+           border-top-style: 1px solid #008999;
+       }
+       
+    .caserow td {
+        border-left:1px solid #008999;
+    }   
+  </style>
+  
+ <apex:Form >
+       <div class="treeheader" style="height:0px;">&nbsp;</div>
+           <table class="table">
+                    <tr style="tableHead">
+                        <th>Task</th>
+                        <th >Owner Name</th>
+                        <th >Effort(00)</th>
+                        <th style="padding-right: 70px;">From </th>
+                        <th style="padding-right: 70px;">To</th>
+                        <apex:repeat value="{!ListOfweeks}" var="c">
+                           <th >
+                               <apex:outputText value="{0, date, d'-'MMMM}" ><apex:param value="{!c}" /> </apex:outputText>
+                           </th>
+                           <apex:outputText ></apex:outputText>
+                       </apex:repeat>
+                    </tr>
+                  <ul id="tree">  
+                  <apex:repeat value="{!CaseProjectsData }" var="w">
+                   <li>
+                   <tr class="caserow"> 
+                       <td>{!w.prjWr.prjCase.caseNumber}</td>
+                       <td>{!w.prjWr.prjCase.owner.name}</td>
+                       <td>&nbsp;&nbsp;&nbsp;{!w.prjWr.prjCase.Effort__c}</td> 
+                       <td ><apex:outputText value="{0, date,d'-'MMMM'-' yy}"><apex:param value="{!w.prjWr.prjCase.Expected_Start_Date__c}" /> </apex:outputText></td>
+                       <td> <apex:outputText value="{0, date,d'-'MMMM'-' yy}" ><apex:param value="{!w.prjWr.prjCase.Expected_Closing_Date__c}" /> </apex:outputText></td>
+                       
+                       
+                           <td colspan ="{!w.initialWeeks}" bgcolor="red"></td>
+                           <td colspan ="{!w.coloringWeeks}" bgcolor="grey"> </td>
+                           <td colspan = "{!w.remWeeks}" bgColor="white"> </td>                   
+                       
+                       
+                       <ul>
+                       <apex:repeat value="{!w.prjWr.CaseTasks}" var="children" >
+                         <li>
+                          <tr>
+                            
+                              <td> <apex:outputtext escape="false" style="color:red;" value="&nbsp;&nbsp;&nbsp;&nbsp;{!children.Subject}"/></td>
+                              <td ><apex:outputtext escape="false" style="color:red;" value="{!children.Owner.Name}"/></td>
+                              <td>&nbsp;&nbsp;&nbsp;{!children.Effort__c}</td>
+                              <td><apex:outputText value="{0, date,d'-'MMMM'-' yy}" ><apex:param value="{!children.Expected_Start_Date__c}" /></apex:outputText></td>
+                              <td><apex:outputText value="{0, date,d'-'MMMM'-' yy}" ><apex:param value="{!children.Expected_End_Date__c}" /></apex:outputText></td>
+                          
+                         
+                         
+                          <apex:outputLabel rendered="{!(children.initial_Weeks__c != 0  && children.Final_weeks__c !=0  && children.Effort__c !=0 )}">
+                               <td colspan ="{!children.initial_weeks__c}" bgcolor="white"></td>                                                            
+                                                        
+                                  <td colspan ="{!children.effort__c}" bgcolor="teal"></td>
+                                  <td colspan = "{!children.final_weeks__c}" bgColor="white"></td>
+                                                          
+                           </apex:outputLabel>
+                            
+                            
+                            <apex:outputLabel rendered="{!(children.initial_Weeks__c == 0  && children.Final_weeks__c !=0  && children.Effort__c !=0 )}">
+                               <!-- <td colspan ="{!children.initial_weeks__c}" bgcolor="blue"></td> -->                                                           
+                                                        
+                                  <td colspan ="{!children.effort__c}" bgcolor="teal"></td>
+                                  <td colspan = "{!children.final_weeks__c}" bgColor="white"></td>
+                                                          
+                           </apex:outputLabel>
+                           
+                           
+                            <apex:outputLabel rendered="{!(children.initial_Weeks__c != 0  && children.Final_weeks__c ==0  && children.Effort__c !=0 )}">
+                                <td colspan ="{!children.initial_weeks__c}" bgcolor="white"></td>                                                            
+                                                        
+                                  <td colspan ="{!children.effort__c}" bgcolor="teal"></td>
+                                 <!-- <td colspan = "{!children.final_weeks__c}" bgColor="yellow"></td>-->
+                                                          
+                           </apex:outputLabel>
+                           
+                             <apex:outputLabel rendered="{!(children.initial_Weeks__c == 0  && children.Final_weeks__c ==0  && children.Effort__c !=0 )}">
+                               <!-- <td colspan ="{!children.initial_weeks__c}" bgcolor="blue"></td> -->                                                           
+                                                        
+                                  <td colspan ="{!children.effort__c}" bgcolor="teal"></td>
+                                 <!-- <td colspan = "{!children.final_weeks__c}" bgColor="yellow"></td>-->
+                                                          
+                           </apex:outputLabel>
+                           
+                            <apex:outputLabel rendered="{!(children.initial_Weeks__c == 0  && children.Final_weeks__c ==0  && children.Effort__c ==0 )}">
+                               <!-- <td colspan ="{!children.initial_weeks__c}" bgcolor="blue"></td> -->                                                           
+                                                        
+                                  <!--<td colspan ="{!children.effort__c}" bgcolor="teal"></td>-->
+                                 <!-- <td colspan = "{!children.final_weeks__c}" bgColor="yellow"></td>-->
+                                                          
+                           </apex:outputLabel>
+                            
+                           
+                           
+                               
+                               
+                          </tr>
+                          </li>
+                      </apex:repeat>
+                      </ul>
+                 </tr>
+                </li>
+                 </apex:repeat>
+                  </ul>
+            </table>        
+       
+   
+   
+   
+   
+     
+  
+  </apex:Form>
+  
+  
+</apex:page>

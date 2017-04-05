@@ -1,0 +1,44 @@
+<apex:component >
+ <table class="table table-bordered">
+     <thead>
+         <tr style="background-color: rgb(239, 234, 226);">
+             <th>Account Name</th>
+             <th>Account Plans</th>
+             <th># of Contacts</th>
+             <th>AR</th>
+             <th>Order Amount</th>
+             <th>Open SRs</th>
+             <th>Last Marketing Act</th>
+             <th>Top 100 Customer Rank</th>
+             <th>Opportunity Amount</th>
+         </tr>
+     </thead>
+     <tbody>
+         <tr style="text-align: center;">
+             <td style="background-color: rgb(239, 234, 226);">
+                 <div class="btn-group">
+                        <button type="button" class="btn btn-primary">Choose Account</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" 
+                           data-toggle="dropdown">
+                           <span class="caret"></span>
+                           <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                         <div>Hello World</div>
+                         </ul>
+                 </div>
+             </td>
+             <td>3</td>
+             <td>20</td>
+             <td>2334</td>
+             <td>3556</td>
+             <td>52</td>
+             <td>20-Mar-2014</td>
+             <td>99</td>
+             <td>34.756</td>
+         </tr>     
+     </tbody>
+ </table>
+
+                    
+ </apex:component>

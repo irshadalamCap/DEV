@@ -1,0 +1,62 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false">
+  <!-- Begin Default Content REMOVE THIS -->
+  <h1>Congratulations</h1>
+  This is your new Page
+  
+  <apex:stylesheet value="{!URLFOR($Resource.TimeLineJS, 'Gantt-Chart/jsgantt.css')}"/>
+  <apex:includeScript value="{!URLFOR($Resource.TimeLineJS, 'Gantt-Chart/jsgantt.js')}"/>
+  <!--<apex:includeScript value="{!URLFOR($Resource.TimeLineJS, 'Gantt-Chart/graphics.js')}"/> -->
+  
+
+<!--<link rel="stylesheet" type="text/css" href="jsgantt.css"/>
+
+<script language="javascript" src="jsgantt.js"></script>
+<script language="javascript" src="graphics.js"></script>-->
+
+
+
+<body>
+<div style="position:relative" class="gantt" id="GanttChartDIV"></div>
+<script>
+    var Project;
+    project = {
+    
+        data:[
+              {pID:1, pName:Project #2, pStart:01-04-2013,pEnd:01-04-2013};         
+            ]
+    };
+
+  // here's all the html code neccessary to display the chart object
+  // Future idea would be to allow XML file name to be passed in and chart tasks built from file.
+  
+  var g = new JSGantt.GanttChart('g',document.getElementById('GanttChartDIV'), 'week');
+
+    g.setShowRes(1); // Show/Hide Responsible (0/1)
+    g.setShowDur(1); // Show/Hide Duration (0/1)
+    g.setShowComp(0); // Show/Hide % Complete(0/1)
+    g.setCaptionType('');  // Set to Show Caption (None,Caption,Resource,Duration,Complete)
+  if( g ) {
+
+    // Parameters             (pID, pName,pStart,pEnd,        pColor,   pLink,          pMile, pRes,  pComp, pGroup, pParent, pOpen)
+    // use the XML file parser 
+    JSGantt.parseXML('project',g)
+    g.Draw();   
+    g.DrawDependencies();
+    document.getElementsByName('radFormat')[0].parentNode.style.display="none";
+  }
+
+  else
+
+  {
+
+    alert("not defined");
+
+  }
+
+</script>
+</body>
+
+
+  
+  
+</apex:page>

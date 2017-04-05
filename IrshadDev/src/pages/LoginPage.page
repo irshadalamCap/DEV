@@ -1,0 +1,55 @@
+<apex:page showHeader="false" sidebar="false" controller="SiteLoginController1">
+<html>
+<head>
+<meta charset="utf-8"></meta>
+<meta name="viewport" content="initial-scale=1, maximum-scale=1"></meta>
+<title>Sign In | ERMS Prototype</title>
+<apex:stylesheet value="{!URLFOR($Resource.Resources, 'Resources/styles/erms.css')}"/> 
+<apex:stylesheet value="{!URLFOR($Resource.Resources, 'Resources/styles/fonts.css')}"/> 
+</head>
+
+<body>
+<header id="pageHeader" >
+<!-- 
+<img src="{!URLFOR($Resource.Resources, 'Resources/media/images/logo_placeholder.png')}" height="60" alt="ethicon-event-registration-management-system" id="pageLogo"></img>
+  <nav id="menu"> <span id="menuTrigger"><i class="ss-icon ss-navigatedown" ></i></span>
+        <div id="menuItems"> <a href="/apex/My_Events"><i class="ss-icon ss-check"></i> My Events</a> <a href="/apex/Upcomming_Events"><i class="ss-icon ss-calendar"></i> Upcoming Events</a> <a href="/apex/Contact_Us"><i class="ss-icon ss-questionchat"></i> Contact Us</a> <a href="/apex/Sign_In"><i class="ss-icon ss-outbox"></i> Logout</a> </div>
+
+  </nav>
+ -->
+</header>
+<section id="credentials" style="background-image:url('{!URLFOR($Resource.Resources, 'Resources/media/images/_placeholders/welcome.png')}')">
+<apex:form >
+<br/><br/>
+<br/><br/>
+<h2> Sign in to manage your events</h2>
+<br/><br/>
+<div class="field">
+<label for="email">Email Address</label>
+<input type="email" class="text-input first-field" name="email"></input>
+</div>
+<div class="field">
+<label for="email">Password</label>
+<input type="password" class="text-input" name="password"></input><br/><br/>
+</div>
+                <button type="button" id="signIn">Sign in</button>
+               <!-- <apex:commandButton value="Sign In" action="{!login}"/>-->
+<br></br>
+<br></br>
+<br></br>
+<a href="#">Reset your password</a>
+</apex:form>
+</section>
+<footer>
+<div id="footerActions">
+<a href="#"><i class="ss-icon ss-flag"></i>&nbsp;&nbsp; SELECT A COUNTRY</a><a href="#"><i class="ss-icon ss-questionchat"></i>&nbsp;&nbsp; CONTACT US</a>
+</div>
+<a href="#"> Privacy </a><span class="divider">|</span><a href="#">Legal Notice/Terms &amp; Conditions </a>
+  <p>© Ethicon Endo-Surgery, Inc. 2010 - 2013. DSL#12-9000e</p>
+  <img src="{!URLFOR($Resource.Resources, 'Resources/media/images/logo-footer.png')}" alt="ethicon-event-registration-management-system"> </img></footer>
+<apex:includeScript value="{!URLFOR($Resource.Resources, 'Resources/scripts/jquery.min.js')}"/>
+<apex:includeScript value="{!URLFOR($Resource.Resources, 'Resources/scripts/erms.js')}"/>
+
+</body>
+</html>
+</apex:page>

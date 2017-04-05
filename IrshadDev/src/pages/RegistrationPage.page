@@ -1,0 +1,50 @@
+<apex:page cache="true" showHeader="false" sidebar="false">
+
+<script>
+ function Validate(){
+     var x = document.getElementById("{!$Component.form1.firstGrid.pg1.fName}").value;
+     system.debug('var----->'+x);
+        if (x.length <1) {
+        alert("First name must be filled out");
+        return false;
+    }
+ 
+ }
+ 
+ </script>
+ <apex:form id="form1">
+ 
+ 
+     <apex:panelGrid columns="1" id="firstGrid" width="100%">
+         <apex:panelGroup id="pg1">
+         <apex:inputText id="fName" html-placeholder="First Name"/>
+         <apex:inputText id="lName" html-placeholder="Last Name"/>
+         </apex:panelGroup>
+         
+         <apex:panelGroup >
+             <apex:inputText id="email" html-placeholder="email"/>
+         </apex:panelGroup>
+         
+          <apex:panelGroup >
+             <apex:inputSecret id="pwd" html-placeholder="Password"/>
+         </apex:panelGroup>  
+          <apex:panelGroup >
+             <apex:inputSecret id="cnfpwd" html-placeholder="Confirm Password"/>
+         </apex:panelGroup>
+         
+         <apex:panelgroup >
+                Male: <apex:inputcheckbox />   
+                Female: <apex:inputcheckbox />   
+        </apex:panelgroup>   
+        
+       Date of Birth: <input type="date" name="Date of Birth"/>
+       <apex:commandButton value="Register" onclick="return Validate(this);"/>
+               
+     </apex:panelGrid>
+     
+       
+     
+ 
+ 
+ </apex:form>
+</apex:page>

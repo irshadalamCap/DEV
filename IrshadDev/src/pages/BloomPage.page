@@ -1,0 +1,75 @@
+<apex:page sidebar="false" showHeader="false" standardController="Partner__c" extensions="CreatePartnerRecordController">
+<apex:stylesheet value="{!URLFOR($Resource.BloomStyle,'BloomStyle/mystylings/mystylings.css')}"/>
+
+ 
+  <style>
+  #container {
+  width: 100%;
+  max-width: 900px;
+  min-width: 900px;
+  margin: 0 auto;
+  height: 150px;
+  //border-bottom-style: solid;
+}
+
+  #column-center {      
+     background-image:url('{!$Resource.image}');
+    }
+    
+   #sidebar-left {
+      width: 25%;
+      float: left;
+      margin: 10px 0;
+      position: relative;
+    }
+    
+    .red_ast {
+        color: #F00;
+     } 
+     .clear-block{
+         display: block;
+     }
+  </style>
+  <apex:form >
+      <div id="container"></div>   
+      <div id="sidebar-left"></div>
+      <apex:outputPanel id="errorBox" rendered="{!ErrorMsg}"> Thanks for Submitting</apex:outputPanel>
+      <div id="column-center">
+      
+          <div id="content">
+            <div class="content clear-block">
+                <p style="border-left-width: 10px;margin-left: 10px;margin-right: 10px;"><strong>Bloom Energy</strong>
+                     "appreciates your efforts in referring potential customer sites to us. 
+                     Please supply the required information below to be eligible for Registered Site commissions. 
+                     A member of the Bloom Energy sales team will contact you within 5 business days to confirm 
+                     whether or not this site meets Site Registration requirements."
+                </p>
+            </div> 
+              <table id="table" border="0" width="100%">
+                 
+                   <tbody>
+                      <tr>
+                          <td Style="padding-left: 50px;"><p>Partner Company Name:<span class="red_ast">*</Span></p><apex:inputField value="{!Partner__c.Company_Name__c}"/></td>
+                          <td><p>Partner Contact Name:<span class="red_ast">*</Span></p><apex:inputField value="{!Partner__c.Contact_Name__c}"/></td>
+                      </tr>
+                      <tr>
+                          <td Style="padding-left: 50px;"><p>Phone<span class="red_ast">*</Span></p><apex:inputField value="{!Partner__c.Phone__c}"/></td>
+                          <td><p>Email<span class="red_ast">*</Span></p><apex:inputField value="{!Partner__c.Email__c}"/></td>
+                      </tr>
+                      <tr>
+                          <apex:outputLabel value="File Name" for="fileName"/>
+                          <apex:inputText value="{!attachment.name}" id="fileName"/>
+                          <apex:outputLabel value="File" for="file"/>
+                          <apex:inputFile value="{!attachment.body}" filename="{!attachment.name}" id="file"/>
+                      
+                      </tr>
+                  </tbody>
+              </table>
+              
+          </div>
+          <apex:CommandButton value="Submit" action="{!createPartner}" style="margin-left: 50px;"/>
+      </div>
+       
+      <div id="right-div"></div>
+  </apex:form>
+</apex:page>

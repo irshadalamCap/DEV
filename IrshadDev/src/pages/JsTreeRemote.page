@@ -1,0 +1,216 @@
+<apex:page >
+ 
+<!-- download the jstree from jstree.com and upload the dist directory as a static resource -->
+<link href="{!URLFOR($Resource.jsTree, 'themes/default/style.min.css')}" rel="stylesheet" />
+<script src="{!URLFOR($Resource.jsTree, 'libs/jquery.js')}"></script>
+<script src="{!URLFOR($Resource.jsTree, 'jstree.min.js')}"></script>
+<script src="{!URLFOR($Resource.jsTree, 'jstree.min.js')}"></script>
+ 
+<!-- 
+Change the remoteObjectModel name="Account and 
+remoteObjectField name="ParentId" to use a different
+Object and Lookup field on this page, if desired.
+-->
+<apex:remoteObjects >
+    <apex:remoteObjectModel jsShortHand="sfNode" name="Account" fields="Id,Name">
+        <apex:remoteObjectField name="ParentId" jsShorthand="Parent" />
+    </apex:remoteObjectModel>
+</apex:remoteObjects>
+ 
+<script>
+(function() {
+      var $j = jQuery.noConflict();
+      
+      $j(document).ready(function() {
+      
+          $j("#jstree").jstree({
+              "plugins": ["themes", "contextmenu", "dnd"],
+              "core" : {
+                  themes: {"stripes": true},
+                  check_callback : true,
+                  animation : 0,
+                  data : function (node, cb) {
+                      loadNodes(this, node, cb);
+                  }
+              },
+              contextmenu : {
+                 "items" : function (node) {
+                      return { 
+                          "view" : {
+                              label: "View Record",
+                              action: function(obj) {
+                                  window.open("/" + node.id);
+                              }
+                          },
+                          "rename" : {
+                              label: "Rename", 
+                              action: function(obj) { 
+                                  $j("#jstree").jstree(true).edit(node)
+                              }
+                          },
+                          "create" : {
+                              label: "Create New", 
+                              action: function() { 
+                                  createNode(node);
+                              }
+                          },
+                          "delete" : {
+                              label: "Delete",
+                              action: function() {
+                                 if ( confirm("Really delete " + node.text + "?") ) {
+                                     deleteNode(node);
+                                 }
+                              },
+                              separator_before: true
+                          }
+                      }
+                  }
+              }
+          });
+          
+          $j("#jstree").on("move_node.jstree", function(event, data) {
+              moveNode(data);
+          });
+          
+          $j("#jstree").on("rename_node.jstree", function(event, data) {
+              renameNode(data);
+          });
+          
+          $j("#jstree").on("select_node.jstree", function(event, data) {
+              displayPath(data.node.id);
+          });
+      });
+ 
+      function loadNodes(tree, node, cb) {
+          var nodeId = node.id == "#" ? "" : node.id;
+              
+          var sfNode = new SObjectModel.sfNode();
+          
+          sfNode.retrieve({ 
+              where: {Parent: {eq: nodeId}}, 
+              limit: 100 }, 
+              function(err, records) {
+              if (err) {
+                  displayErr(err);
+              } else {
+                  var nodes = [];
+                  records.forEach(function(record) {
+                      nodes.push({ 
+                          id: record.get("Id"),
+                          text: record.get("Name"),
+                          children: true
+                      });
+                  });       
+                  cb.call(tree, nodes);
+              }
+          });
+      }
+      
+      function moveNode(data) {
+          var parentId = data.parent == "#" ? null : data.parent;
+          
+          var sfNode = new SObjectModel.sfNode({
+              Id: data.node.id, 
+              Parent: parentId
+          });
+              
+          sfNode.update(function (err) {
+              if (err) {  
+                  displayErr(err);
+              } else {                  
+                  displayMsg(
+                      "Moved " + data.node.text + 
+                      " from /" + getPath(data.old_parent) + 
+                      " to /" + getPath(data.parent)
+                  );
+              }
+          });
+      }
+          
+      function renameNode(data) {
+          var sfNode = new SObjectModel.sfNode({
+              Name: data.text,
+              Id: data.node.id
+          });
+          
+          sfNode.update(function (err) {
+              if (err) {  
+                  displayErr(err);
+              } else { 
+                  displayMsg("Renamed " + data.old + " to " + data.text);
+                  displayPath(data.node.id);
+              }
+          });
+      }
+    
+      function createNode(parent) {
+          var sfNode = new SObjectModel.sfNode({Name: "New Name", Parent: parent.id});
+              
+          sfNode.create(function (err) {
+              if (err) {  
+                  displayErr(err);
+              } else { 
+                  var newNode = {
+                      id: sfNode.get("Id"), 
+                      text: sfNode.get("Name")
+                  };                      
+                  var tree = $j("#jstree").jstree(true);
+                  var id = tree.create_node(parent, newNode, "last", null, true);
+                  if (tree.is_closed(parent)) {
+                      tree.open_node(parent, function() {
+                          tree.deselect_all(true);
+                          tree.edit(id);
+                      });
+                  } else {
+                      tree.deselect_all(true);
+                      tree.edit(id);
+                  }
+              }
+          });                    
+      }
+          
+      function deleteNode(node) {
+          var sfNode = new SObjectModel.sfNode();
+          sfNode.del(node.id, function(err) {
+              if (err) {
+                  displayErr(err);
+              } else {
+                  var tree = $j("#jstree").jstree(true);
+                  tree.delete_node(node);
+                  displayMsg("Deleted " + node.text);
+                  tree.refresh();
+              }
+          });
+      }
+      
+      function getPath(id) {
+          if (id == "#") {
+             return "";
+          }
+          return $j("#jstree").jstree(true).get_path({id: id}, "/");
+      }
+      
+      function displayPath(nodeId) {
+          $j("#path").text("Path: /" + getPath(nodeId));
+      }
+          
+      function displayMsg(msg) {
+          $j("#msg").text(msg);
+      }
+      
+      function displayErr(err) {
+          displayMsg("Error: " + err);
+      }
+})();
+</script>
+ 
+<h1>Nodes</h1>
+ 
+<div id="msg"></div>
+<div id="path"></div>
+ 
+<div id="jstree">
+    <ul></ul>
+</div>
+ 
+</apex:page>

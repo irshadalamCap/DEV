@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>WebService Integration Settings</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>WebService Integration Settings</value>
+    </caseValues>
+    <fields>
+        <label><!-- Endpoint --></label>
+        <name>GeWS_Endpoint__c</name>
+    </fields>
+    <fields>
+        <label><!-- Integration Credential Identifier --></label>
+        <name>GeWS_IntegrationCredentialIdentifier__c</name>
+    </fields>
+    <fields>
+        <label><!-- Timeout --></label>
+        <name>GeWS_Timeout__c</name>
+    </fields>
+    <fields>
+        <label><!-- User Agent --></label>
+        <name>GeWS_User_Agent__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

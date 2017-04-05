@@ -1,0 +1,4 @@
+<apex:page showHeader="false" sidebar="false" controller="AccountController">
+        <c:Slider_Component Slider_Type="Slider" Max="7000" Min="{!account.Amount__c}" orientation="Horizontal" Field_Names="Amount__c,Quantity__c, Percentage__c" />
+        
+</apex:page>

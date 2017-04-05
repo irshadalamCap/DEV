@@ -1,0 +1,6 @@
+<apex:page controller="xmlgenerator">
+   <apex:form >
+      <apex:commandButton value="test" action="{!xmlgen}"/>  
+      <apex:outputText >{!StringXML}</apex:outputText>
+  </apex:form> 
+</apex:page>

@@ -1,0 +1,61 @@
+<apex:page standardController="Case" extensions="caseExtensionGanttChartControllerV1_1" showHeader="false" sidebar="false">
+  
+  
+  <apex:form >
+  
+   <ul id="tree">
+    <apex:repeat value="{!CaseProjectsData}" var="parent">
+        <li><strong><apex:outputtext style="color:blue;" escape="false" value="{!parent.prjWr.prjCase.caseNumber}"/></strong>
+                    &nbsp;&nbsp;&nbsp;<apex:outputtext style="color:blue;" escape="false" value="{!parent.prjWr.prjCase.owner.name}"/>
+             
+          <apex:repeat value="{!parent.prjWr.CaseTasks}" var="children">
+                               <li > <span class="formattextcon"> <apex:outputtext escape="false" style="color:red;" value="&nbsp;&nbsp;&nbsp;&nbsp;{!children.Subject}"/> 
+                                   <apex:outputtext escape="false" style="color:red;" value="&nbsp;&nbsp;&nbsp;Owner Name"/> 
+                           </span> </li>
+          </apex:repeat>
+           
+        </li>
+  </apex:repeat>
+</ul>
+       
+  
+  
+  
+  
+  
+  <table width="100%" border="1">
+           <tr>
+               
+               <th width="10%">
+                    <apex:outputtext value="owner"/>
+                </th>
+                
+                <th width="10%">
+                    <apex:outputtext value="Case Number"/>
+                </th>
+                
+               <apex:repeat value="{!ListOfweeks}" var="c">
+                   <th width="5%">
+                       <apex:outputText value="{0, date, MMMM d','  yyyy}" ><apex:param value="{!c}" /> </apex:outputText>
+                   </th>
+                   <apex:outputText ></apex:outputText>
+               </apex:repeat>
+           </tr>
+           
+     
+           
+           <apex:repeat value="{!CaseProjectsData }" var="w">
+               <tr>
+                   
+                   <td>{!w.prjWr.prjCase.caseNumber}</td>
+                   <td>{!w.prjWr.prjCase.owner.name}</td>
+                   <td colspan ="{!w.initialWeeks}" bgcolor="white"></td>
+                   <td colspan ="{!w.coloringWeeks}" bgcolor="grey"> </td>
+                   <td colspan = "{!w.remWeeks}" bgColor="white"> </td>
+               </tr>
+           </apex:repeat>
+       </table>
+
+  
+  </apex:form>
+</apex:page>

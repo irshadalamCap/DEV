@@ -1,0 +1,23 @@
+<apex:page controller="Leadpage2">
+   <apex:form >
+   <apex:pageMessage severity="error" strength="2"  summary="Error:" detail="{!errorMessage}"  rendered="{!errorMessage != null}"/>
+   <table>
+   <tr>
+   <td>Lead: </td>
+   <td><apex:inputtext value="{!name}" required="true"/></td>
+   <td></td>
+   <td><apex:commandButton action="{!search}" value="Go"/>
+   </td>
+   </tr>
+   </table>
+   <apex:pageBlock rendered="{!name != null}" >
+   <apex:pageBlockSection title="Lead Details" rendered="{!errorMessage == null}">
+   <apex:pageBlockTable value="{!records}" var="rec">
+   <apex:column value="{!rec.Name}" headerValue="Name"/>
+   <apex:column value="{!rec.Email}" headerValue="Email"/>
+   <apex:column value="{!rec.Company}" headerValue="Company"/>
+   </apex:pageBlockTable>
+   </apex:pageBlockSection>
+   </apex:pageBlock>
+   </apex:form>
+</apex:page>

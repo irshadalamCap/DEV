@@ -1,0 +1,155 @@
+<apex:component Controller="AccountStructure" allowDML="True">
+    <apex:attribute name="currentId1" description="This is the Account Id for displaying Acccount Hierarchy"
+                    type="String" required="true" assignTo="{!currentId}"/>
+
+    <style>
+        #treeMenu {
+            position: relative;
+            padding-right: 200px;
+        }
+        #treeMenu .names {
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        #treeMenu .names .name:hover {
+            background: #EFEAE2;
+        }
+        #treeMenu .names img {
+            float:left;
+        }
+        #treeMenu .locations {
+            position:absolute;
+            top:0;
+            right:0;
+            background: #EFEAE2;
+            min-width: 200px;
+        }
+        #treeMenu .account-title, #treeMenu .locations th {
+            font-weight:500;
+            padding: 10px;
+            color: #fff;
+            background: #236FBD;
+        }
+        #treeMenu .locations table {
+            width: 100%;
+        }
+        #treeMenu .locations td {
+            padding: 0 5px;
+        }
+        #treeMenu .current {
+            color: blue;
+        }
+        #treeMenu .treeNode .minus, #treeMenu .treeNode .minus {
+            background: none;
+        }
+
+        @media all and (max-width: 769px) {
+            #treeMenu {
+                padding-right: 100px;
+                font-size: 14px;
+                line-height: 30px;
+            }
+            #treeMenu .locations .state, #treeMenu .locations .country {
+                display:none;
+            }
+            #treeMenu .treeNode {
+                padding-right:100px;
+            }
+            #treeMenu .locations {
+                width:100px;
+                min-width:100px;
+            }
+            div#treeMenu img {
+                height: 30px;
+                width: auto;
+            }
+        }
+    </style>
+
+    <div>
+        <div id="treeMenu">
+            <div class="account-title">Account Name</div>
+            <div v="top" class="names">
+                <apex:repeat value="{!ObjectStructure}" var="pos">
+                    <div class="name" id='{!pos.nodeId}'>
+                        <apex:repeat value="{!pos.levelFlag}" var="flag" first="0">
+                            <apex:image url="/img/tree/empty.gif" rendered="{!IF(flag,false,true)}"/>
+                            <apex:image url="/img/tree/chain.gif" rendered="{!IF(flag,true,false)}"/>
+
+                        </apex:repeat>
+                        <apex:outputText rendered="{!IF(pos.nodeType=='start',true,false)}">
+                            <apex:image styleClass="minus" id="tree_start" url="/img/tree/minusStart.gif" title="Click to expand/collapse nested items." />
+                        </apex:outputText>
+                        <apex:outputText rendered="{!IF(OR(pos.nodeType=='parent',pos.nodeType=='parent_end'),true,false)}">
+                            <apex:image styleClass="minus" id="Tree_parent" url="/img/tree/minus.gif" rendered="{!IF(pos.nodeType=='parent',true,false)}" title="Click to expand/collapse nested items."/>
+                            <apex:image styleClass="minus" id="Tree_parent_end" url="/img/tree/minusEnd.gif" rendered="{!IF(pos.nodeType=='parent_end',true,false)}"  title="Click to expand/collapse nested items."/>
+                        </apex:outputText>
+                        <apex:outputText rendered="{!IF(OR(pos.nodeType=='child',pos.nodeType=='child_end'),true,false)}">
+                            <apex:image id="Tree_child" url="/img/tree/node.gif" rendered="{!IF(pos.nodeType=='child',true,false)}" title="Click to expand/collapse nested items." />
+                            <apex:image id="Tree_child_current" url="/img/tree/nodeEnd.gif" rendered="{!IF(pos.nodeType=='child_end',true,false)}" title="Click to expand/collapse nested items." />
+                        </apex:outputText>
+                        <apex:outputText rendered="{!IF(pos.nodeType=='end',true,false)}">
+                            <apex:image id="Tree_end" url="/img/tree/nodeEnd.gif" />
+                            <apex:image id="Icon_end" url="/img/icon/desk16.png" rendered="{!IF(pos.currentNode,false,true)}"/>
+                            <apex:image id="Icon_end_current" url="/img/icon/star16.png" rendered="{!IF(pos.currentNode,true,false)}"/>
+                        </apex:outputText>
+                      
+                        <apex:outputPanel id="accPanel" style="cursor: pointer; color:{!IF(pos.Account.Id==currentId1,'Blue','none')}" onclick="javascript:window.top.location.href='/apex/StrategicAccountViewMainDesktop?id=' + '{!pos.account.Id}'">                 
+                               <apex:outputText value="{!pos.account.Name}" />
+                       </apex:outputPanel>
+                    </div>
+                </apex:repeat>
+            </div>
+            <div class="locations">
+                <table>
+                    <thead>
+                        <th class="city">City</th>
+                        <th class="state">State</th>
+                        <th class="country">Country</th>
+                    </thead>
+                    <apex:repeat value="{!ObjectStructure}" var="pos">
+                        <tr class="location" id='{!pos.nodeId}'>
+                            <td class="city">
+                                <apex:outputText styleClass="colStyle">
+                                    <apex:outputText value="{!pos.account.BillingCity}" />
+                                </apex:outputText></td>
+
+                            <td class="state"><apex:outputText >
+                                <apex:outputText value="{!pos.account.BillingState}" />
+                            </apex:outputText></td>
+
+                            <td class="country"><apex:outputText >
+                                <apex:outputText value="{!pos.account.BillingCountry}"/>
+                            </apex:outputText></td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $j = jQuery.noConflict();
+
+            $j("#treeMenu").on("click", ".minus", function(){
+                var id = $j(this).parent().attr('id');
+                console.log('Minusid =='+id);
+
+                $j('#treeMenu').find("[id^='"+id+".']").hide();
+                $j(this).removeClass('minus').addClass('plus');
+                $j(this).attr("src", "/img/tree/plus.gif")
+            });
+            
+            $j("#treeMenu").on("click", ".plus", function(){
+                var id = $j(this).parent().attr('id');
+                console.log('Plusid =='+id);
+
+                $j('#treeMenu').find("[id^='"+id+".']").show();
+                $j(this).removeClass('plus').addClass('minus');
+                $j(this).attr("src", "/img/tree/minus.gif")
+            });
+            
+            
+        </script>
+
+    </div>
+</apex:component>

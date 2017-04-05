@@ -1,0 +1,15 @@
+<apex:page Controller="ajaxDemo">
+<apex:pageBlock Title="Ajax Sample">
+Hello <b> {!$User.FirstName}</b>.
+<apex:form >
+
+<apex:commandbutton action="{!setCurrTime}" rerender="Ajaxdemo" value="Display Time" />
+
+</apex:form>
+
+  <apex:outputPanel id="Ajaxdemo">
+    Result: {!CurrTime}
+  </apex:outputPanel>
+</apex:pageBlock>
+
+</apex:page>

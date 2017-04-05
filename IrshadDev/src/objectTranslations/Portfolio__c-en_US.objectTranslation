@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Portfolio</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Portfolios</value>
+    </caseValues>
+    <fields>
+        <label><!-- Broker --></label>
+        <name>Broker__c</name>
+        <picklistValues>
+            <masterLabel>SBI Capsec</masterLabel>
+            <translation><!-- SBI Capsec --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Zerodha</masterLabel>
+            <translation><!-- Zerodha --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Buy Amount --></label>
+        <name>Buy_Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Buy Price --></label>
+        <name>Buy_Price__c</name>
+    </fields>
+    <fields>
+        <label><!-- Buy Qty --></label>
+        <name>Buy_Qty__c</name>
+    </fields>
+    <fields>
+        <label><!-- Holding Days --></label>
+        <name>Holding_Days__c</name>
+    </fields>
+    <fields>
+        <label><!-- Purchase Date --></label>
+        <name>Purchase_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sell Amount --></label>
+        <name>Sell_Amount__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sell Date --></label>
+        <name>Sell_Date__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sell Price --></label>
+        <name>Sell_Price__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sell Qty --></label>
+        <name>Sell_Qty__c</name>
+    </fields>
+    <fields>
+        <label><!-- Stock Name --></label>
+        <name>Stock_Name__c</name>
+    </fields>
+    <fields>
+        <label><!-- Stock Type --></label>
+        <name>Stock_Type__c</name>
+        <picklistValues>
+            <masterLabel>Equity</masterLabel>
+            <translation><!-- Equity --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Equity-Intraday</masterLabel>
+            <translation><!-- Equity-Intraday --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Future</masterLabel>
+            <translation><!-- Future --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Future-Intraday</masterLabel>
+            <translation><!-- Future-Intraday --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Option</masterLabel>
+            <translation><!-- Option --></translation>
+        </picklistValues>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,40 @@
+<apex:component >
+<table class="table table-bordered">     
+     <tbody>
+         <tr style="text-align: left;">             
+          <td>    
+
+                <input type="checkbox" id="accCb" onclick="show('accDiv','accCb')">&nbsp;Contact Relationship</input>
+
+            
+           </td> 
+             <td> 
+
+                <input type="checkbox" id="conCb" checked="true" onclick="show('conDiv','conCb')">&nbsp;Account plan</input>
+
+            </td>
+             <td>
+
+                <input type="checkbox" id="oppCb" checked="true" onclick="show('oppDiv','oppCb')">&nbsp;Opportunity Funnel</input>
+
+            </td>
+             <td>
+
+                <input type="checkbox" id="ibCb" checked="true" onclick="show('ibDiv','ibCb')">&nbsp;Orders</input>
+
+            </td>
+             <td> 
+
+                <input type="checkbox" id="ibCb" checked="true" >&nbsp;Collection (AR)</input>
+
+            </td>
+             <td>
+
+                <input type="checkbox" id="ibCb" checked="true" >&nbsp;IB</input>
+
+            </td>
+             
+         </tr>     
+     </tbody>
+ </table>
+ </apex:component>

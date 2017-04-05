@@ -1,0 +1,131 @@
+<apex:page standardController="Account" extensions="AccountStructure1">
+    <!--<apex:attribute name="currentId1" description="This is the Account Id for displaying Acccount Hierarchy" type="String" required="true" assignTo="{!currentId}"/>-->
+  
+  
+ 
+<script type="text/javascript">
+        $(function() {
+            $("#tree").treeview({
+                collapsed: false,
+                animated: "medium",
+                control:"#sidetreecontrol",
+                persist: "location"
+            });
+        })
+</script>
+
+
+
+  
+
+<apex:pageBlock >
+<table width="100%"><tr>
+<td><h1> Account Name &nbsp;&nbsp;&nbsp;&nbsp;</h1></td>
+<td ><h1 style="position:absolute; left:330px; width:90px; float:left; margin:0px 30px 0px 0px;"> Primary City </h1></td>
+<td ><h1 style="position:absolute; left:430px; width:100px; float:left; margin:0px 30px 0px 0px;"> Primary State</h1></td>
+<td ><h1 style="position:absolute; left:530px; width:100px; float:left; margin:0px 30px 0px 0px;">Primary Country</h1></td>
+</tr></table>
+
+<hr noshade="noshade" />
+   <div class="treeNode">
+            <apex:repeat value="{!ObjectStructure}" var="pos" >
+            <apex:repeat value="{!pos.levelFlag}" var="flag" first="0">
+            <apex:image url="/img/tree/empty.gif" height="16" width="20" rendered="{!IF(flag,false,true)}"/>
+            <apex:image url="/img/tree/chain.gif" height="16" width="20" rendered="{!IF(flag,true,false)}"/>
+                
+            </apex:repeat>
+     <span height="16" v="top">
+           <apex:outputText rendered="{!IF(pos.nodeType=='start',true,false)}">
+               <apex:image id="tree_start" url="/img/tree/minusStart.gif" height="16" width="20" title="Click to expand/collapse nested items." onClick="TreeNodeElement.prototype.toggle(this,'{!pos.nodeId}');changeImage('{!$Component.tree_start}', 1)"/>
+            </apex:outputText>
+           
+        
+            <apex:outputText rendered="{!IF(OR(pos.nodeType=='parent',pos.nodeType=='parent_end'),true,false)}">
+                <apex:image id="Tree_parent" url="/img/tree/minus.gif" rendered="{!IF(pos.nodeType=='parent',true,false)}" height="16" width="20" title="Click to expand/collapse nested items." onClick="TreeNodeElement.prototype.toggle(this,'{!pos.nodeId}');changeImage('{!$Component.Tree_parent}', 2)"/>
+                <apex:image id="Tree_parent_end" url="/img/tree/minusEnd.gif" rendered="{!IF(pos.nodeType=='parent_end',true,false)}" height="16" width="20" title="Click to expand/collapse nested items." onClick="TreeNodeElement.prototype.toggle(this,'{!pos.nodeId}');changeImage('{!$Component.Tree_parent_end}', 3)"/>               
+            </apex:outputText>
+            
+
+            <apex:outputText rendered="{!IF(OR(pos.nodeType=='child',pos.nodeType=='child_end'),true,false)}">
+                <apex:image id="Tree_child" url="/img/tree/node.gif" rendered="{!IF(pos.nodeType=='child',true,false)}" height="16" width="20" title="Click to expand/collapse nested items." onClick="TreeNodeElement.prototype.toggle(this,'{!pos.nodeId}')"/>
+                <apex:image id="Tree_child_current" url="/img/tree/nodeEnd.gif" rendered="{!IF(pos.nodeType=='child_end',true,false)}" height="16" width="20" title="Click to expand/collapse nested items." onClick="TreeNodeElement.prototype.toggle(this,'{!pos.nodeId}')"/>
+            </apex:outputText>
+
+            <apex:outputText rendered="{!IF(pos.nodeType=='end',true,false)}">
+                
+                <apex:image id="Tree_end" url="/img/tree/nodeEnd.gif" height="16" width="20"/>&nbsp;
+                <apex:image id="Icon_end" url="/img/icon/desk16.png" width="16" height="16" rendered="{!IF(pos.currentNode,false,true)}"/>
+                <apex:image id="Icon_end_current" url="/img/icon/star16.png" width="16" height="16" rendered="{!IF(pos.currentNode,true,false)}"/>
+            
+            </apex:outputText>
+            
+         
+           
+          <apex:outputText value="/{!pos.Account.Id}"  style="background-color:{!IF(pos.Account.Id==Account.Id,'yellow','white')}">{!pos.account.name}</apex:outputText>
+            <apex:outputLabel style="position:absolute; left:330px; width:90px; float:left; margin:0px 30px 0px 0px;">
+                <apex:outputText value="{!pos.account.BillingCity}" rendered="{!IF(pos.account.BillingCity!= '', true, false)}" style="background-color:{!IF(pos.Account.Id==Account.Id,'yellow','none')}"/>
+            </apex:outputLabel>
+            <apex:outputLabel style="position:absolute; left:430px; width:100px; float:left; margin:0px 30px 0px 0px;">
+                <apex:outputText value="{!pos.account.BillingState}" rendered="{!IF(pos.account.BillingState!= '', true, false)}" style="background-color:{!IF(pos.Account.Id==Account.Id,'yellow','none')}"/>
+            </apex:outputLabel>
+            <apex:outputLabel style="position:absolute; left:530px; width:100px; float:left; margin:0px 30px 0px 0px;">
+                <apex:outputText value="{!pos.account.BillingCountry}" rendered="{!IF(pos.account.BillingCountry!='', true, false)}" style="background-color:{!IF(pos.Account.Id==Account.Id,'yellow','none')}"/>
+            </apex:outputLabel>
+           
+            
+
+       <hr size="1.5" align="left" width="600px" color="black"></hr>
+
+            </span>
+            <div> </div>
+            <div id='{!pos.nodeId}'>
+             <apex:outputText rendered="{!IF(OR(pos.nodeType=='child_end',pos.nodeType=='child'),false,true)}"/>                
+            
+                    <apex:outputText rendered="{!IF(OR(pos.nodeType=='child_end',pos.nodeType=='child'),true,false)}"/>
+                   
+                <div id='{!pos.nodeId}'></div>
+            
+                <apex:repeat value="{!pos.closeFlag}" var="close"/>
+                   </div>
+              
+               
+                  
+
+    </apex:repeat>
+    <br/><br/><br/>
+    </div>
+
+   <script type="text/javascript">
+    String.prototype.endsWith = function(str){return this.indexOf(str, this.length - str.length) !== -1;}
+   
+     //return this.indexOf(suffix, this.length - suffix.length) !== -1;
+    
+    
+    function changeImage(s,i)
+    {
+         imageURL = document.getElementById(s).src;
+         if (i == 1) {
+             if (imageURL.endsWith("/img/tree/minusStart.gif"))
+             imageURL = "/img/tree/plusStart.gif";
+             else if (imageURL.endsWith("/img/tree/plusStart.gif"))
+             imageURL = "/img/tree/minusStart.gif";
+         } else if (i == 2) {
+             if (imageURL.endsWith("/img/tree/minus.gif"))
+             imageURL = "/img/tree/plus.gif";
+             else if (imageURL.endsWith("/img/tree/plus.gif"))
+             imageURL = "/img/tree/minus.gif";
+         } else if (i == 3) {
+             if (imageURL.endsWith("/img/tree/minusEnd.gif"))
+             imageURL = "/img/tree/plusEnd.gif";
+             else if (imageURL.endsWith("/img/tree/plusEnd.gif"))
+             imageURL = "/img/tree/minusEnd.gif";
+         } else {
+            return null;
+         }
+         document.getElementById(s).src=imageURL;
+    }
+    </script>         
+
+    </apex:pageBlock>
+  
+</apex:page>

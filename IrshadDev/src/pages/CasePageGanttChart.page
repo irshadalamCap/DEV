@@ -1,0 +1,66 @@
+<apex:page standardController="Case" extensions="caseExtensionGanttChartControllerV1_1" showHeader="false" sidebar="false">
+  <apex:Form >
+  number OF Weeks = {!numOfWeeks}
+  
+   <div id="mainDiv">
+       <div id="TableHead">
+           <table width="100%" border="1">
+                    <tr>
+                        <th  width="10%">Task</th>
+                        <th width="10%">Owner</th>
+                        <th width="10%">Effort</th>
+                        <th width="10%">From</th>
+                        <th width="10%">To</th>
+                        <apex:repeat value="{!ListOfweeks}" var="c">
+                           <th width="2%">
+                               <apex:outputText value="{0, date, MMMM d','  yyyy}" ><apex:param value="{!c}" /> </apex:outputText>
+                           </th>
+                           <apex:outputText ></apex:outputText>
+                       </apex:repeat>
+                    </tr>
+                    
+                  <apex:repeat value="{!CaseProjectsData }" var="w">
+                   <tr> 
+                       <td>{!w.prjWr.prjCase.caseNumber}</td>
+                       <td>{!w.prjWr.prjCase.owner.name}</td>
+                       <td>Need to Calculate</td> 
+                       <td><apex:outputText value="{0, date, MMMM d','  yyyy}" ><apex:param value="{!w.prjWr.prjCase.Expected_Start_Date__c}" /> </apex:outputText></td>
+                       <td><apex:outputText value="{0, date, MMMM d','  yyyy}" ><apex:param value="{!w.prjWr.prjCase.Expected_Closing_Date__c}" /> </apex:outputText></td>
+                       <td colspan ="{!w.initialWeeks}" bgcolor="white"></td>
+                       <td colspan ="{!w.coloringWeeks}" bgcolor="grey"> </td>
+                       <td colspan = "{!w.remWeeks}" bgColor="white"> </td>                   
+                   
+                       <apex:repeat value="{!w.prjWr.CaseTasks}" var="children">
+                          <tr>
+                              <td> <apex:outputtext escape="false" style="color:red;" value="{!children.Subject}"/></td>
+                              <td width="5%"><apex:outputtext escape="false" style="color:red;" value="{!children.Owner.Name}"/></td>
+                              <td>Need to calculate</td>
+                              <td><apex:outputText value="{0, date, MMMM d','  yyyy}" ><apex:param value="{!children.Expected_Start_Date__c}" /></apex:outputText></td>
+                              <td><apex:outputText value="{0, date, MMMM d','  yyyy}" ><apex:param value="{!children.Expected_End_Date__c}" /></apex:outputText></td>
+                              
+                              <td colspan ="{!w.iniTaskWeeks}" bgcolor="white"></td> 
+                              <td colspan ="{!w.colorTaskWeeks}" bgcolor="green"></td> 
+                              <td colspan = "{!w.finTaskWeeks }" bgColor="white"></td>
+                              
+                               
+                               
+                          </tr>
+                          
+                      </apex:repeat>
+                      
+                      
+                 </tr>
+                 
+                 </apex:repeat>
+            </table>        
+       
+       </div>
+   
+   
+   
+   </div>   
+  
+  </apex:Form>
+  
+  
+</apex:page>
