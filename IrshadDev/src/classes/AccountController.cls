@@ -1,3 +1,4 @@
+//Commented--//
 public without sharing class AccountController {
     public Account account{get; set;}
     public string amountOnPage{get;set;}
